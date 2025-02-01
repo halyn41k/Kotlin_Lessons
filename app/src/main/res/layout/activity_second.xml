@@ -5,36 +5,36 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".SecondActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MainActivity"
+        android:text="This is Second Activity"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/second"
+        app:layout_constraintBottom_toTopOf="@+id/buttonToThird"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
-        android:id="@+id/second"
+        android:id="@+id/buttonToThird"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="Go to Third Activity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintBottom_toTopOf="@id/backToThird" />
+        app:layout_constraintTop_toBottomOf="@id/textView3"
+        app:layout_constraintBottom_toTopOf="@id/buttonBackToMain"/>
 
     <Button
-        android:id="@+id/backToThird"
+        android:id="@+id/buttonBackToMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back to Third Activity"
+        android:text="Back to Main Activity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/second"
+        app:layout_constraintTop_toBottomOf="@id/buttonToThird"
         app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
