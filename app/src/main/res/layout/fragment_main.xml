@@ -15,14 +15,39 @@
         android:layout_marginBottom="16dp"/>
 
     <Button
+        android:id="@+id/btnPickPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick Photo"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnTakePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Photo"
+        android:layout_marginTop="8dp"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Selected or Captured Photo"/>
+
+    <Button
         android:id="@+id/btnGoToSecond"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to Second Fragment"/>
+        android:text="Go to Second Fragment"
+        android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/btnGoToThird"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to Third Fragment"/>
+        android:text="Go to Third Fragment"
+        android:layout_marginTop="8dp"/>
+
 </LinearLayout>
