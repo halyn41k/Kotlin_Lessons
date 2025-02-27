@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.newfragment.OtherFragment
+
 
 class MainFragment : Fragment() {
     override fun onCreateView(
@@ -22,20 +24,19 @@ class MainFragment : Fragment() {
         }
 
         bottomNav.setOnItemSelectedListener { item ->
-            val fragment = when (item.itemId) {
+            val fragment: Fragment? = when (item.itemId) {
                 R.id.nav_home -> HomeFragment()
-                R.id.nav_settings -> MysteryFragment()
-                R.id.nav_products -> ListFragment()
-                R.id.nav_about -> AboutFragment()
+                R.id.nav_catalog -> CatalogFragment()
+                R.id.nav_info -> InfoFragment()
+                R.id.nav_other -> OtherFragment()
                 else -> null
             }
-            if (fragment != null) {
-                loadFragment(fragment)
+            fragment?.let {
+                loadFragment(it)
                 true
-            } else {
-                false
-            }
+            } ?: false
         }
+
 
         return view
     }

@@ -7,14 +7,15 @@ class SessionManager(context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
     fun saveUser(name: String, dob: String, about: String, email: String, password: String) {
-        prefs.edit()
-            .putString("name", name)
-            .putString("dob", dob)
-            .putString("about", about)
-            .putString("email", email)
-            .putString("password", password)
-            .apply()
+        val editor = prefs.edit()
+        editor.putString("USER_NAME", name)
+        editor.putString("USER_EMAIL", email)
+        editor.putString("USER_ABOUT", about)
+        editor.putString("USER_DOB", dob)
+        editor.putString("USER_PASSWORD", password) // якщо використовується
+        editor.apply()
     }
+
 
     fun getUser(): HashMap<String, String?> {
         return hashMapOf(

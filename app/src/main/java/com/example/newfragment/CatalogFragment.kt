@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 
-class MysteryFragment : Fragment() {
+class CatalogFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_simple, container, false)
-        view.findViewById<TextView>(R.id.tvTitle).text = "Налаштування"
+        view.findViewById<TextView>(R.id.tvTitle).text = "Продукти"
         return view
     }
 }

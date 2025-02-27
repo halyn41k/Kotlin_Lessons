@@ -87,26 +87,24 @@ class AboutFragment : Fragment() {
         val about = user["about"] ?: ""
         val dob = user["dob"] ?: ""
 
-        // Логуємо дані
         Log.d("SharedPref", "Ім'я: $name, Email: $email, Про себе: $about, Дата нар.: $dob")
 
-        // Виводимо дані у TextView
-        val userInfoText = "Ім'я: $name\nEmail: $email\nПро себе: $about\nДата нар.: $dob"
-        tvUserInfo.text = userInfoText
+        tvUserInfo.text = "Ім'я: $name\nEmail: $email\nПро себе: $about\nДата нар.: $dob"
 
-        // Заповнюємо поля для редагування
         etName.setText(name)
         etEmail.setText(email)
         etAbout.setText(about)
         etDob.setText(dob)
 
-        // Завантаження фото, якщо є
         val avatarFile = File(requireContext().filesDir, "avatar.jpg")
         if (avatarFile.exists()) {
             val bitmap = BitmapFactory.decodeFile(avatarFile.absolutePath)
             avatar.setImageBitmap(bitmap)
+        } else {
+            avatar.setImageResource(R.drawable.ic_avatar_placeholder) // Плейсхолдер
         }
     }
+
 
     // Зберігаємо дані користувача у SessionManager
     private fun saveUserData() {
@@ -115,26 +113,27 @@ class AboutFragment : Fragment() {
         val about = etAbout.text.toString()
         val dob = etDob.text.toString()
 
-        // Логуємо дані
-        Log.d("SharedPref", "Збереження: Ім'я: $name, Email: $email, Про себе: $about, Дата нар.: $dob")
-
-        // Зберігаємо дані у SessionManager
         sessionManager.saveUser(name, dob, about, email, "")
 
         Toast.makeText(requireContext(), "Дані збережено", Toast.LENGTH_SHORT).show()
-        loadUserData() // Оновлюємо дані на екрані
+
+        loadUserData() // Оновлення UI
     }
 
-    // Вихід з акаунта
+
     private fun logOut() {
         sessionManager.logout()
 
-        // Переходимо на LoginFragment
+        // Видаляємо збережене зображення
+        val avatarFile = File(requireContext().filesDir, "avatar.jpg")
+        if (avatarFile.exists()) avatarFile.delete()
+
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, LoginFragment())
             .addToBackStack(null)
             .commit()
     }
+
 
     // Видалення акаунта
     private fun deleteAccount() {

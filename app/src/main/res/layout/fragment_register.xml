@@ -1,83 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="@drawable/reglogbackground">
 
-    <LinearLayout
+    <!-- Заголовок -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Реєстрація"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="#000000"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"/>
+
+    <!-- Поле Ім’я -->
+    <EditText
+        android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:hint="Ім’я"
+        android:inputType="textPersonName"
+        android:background="@drawable/input_background"
+        android:padding="12dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_marginBottom="12dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Реєстрація"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="20dp"/>
+    <!-- Поле Прізвище -->
+    <EditText
+        android:id="@+id/etAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Прізвище"
+        android:inputType="textPersonName"
+        android:background="@drawable/input_background"
+        android:padding="12dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_marginBottom="12dp"/>
 
-        <EditText
-            android:id="@+id/etName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ім’я"
-            android:inputType="textPersonName"/>
+    <!-- Поле Email -->
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/input_background"
+        android:padding="12dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_marginBottom="12dp"/>
 
-        <TextView
-            android:id="@+id/tvDob"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Дата народження (YYYY-MM-DD)"
-            android:padding="10dp"
-            android:background="@android:drawable/editbox_background"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:clickable="true"
-            android:focusable="true"/>
+    <!-- Поле Пароль -->
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Пароль"
+        android:inputType="textPassword"
+        android:background="@drawable/input_background"
+        android:padding="12dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_marginBottom="20dp"/>
 
-        <EditText
-            android:id="@+id/etAbout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Про себе"
-            android:inputType="textMultiLine"
-            android:minHeight="100dp"/>
+    <!-- Кнопка "Зареєструватися" -->
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Зареєструватися"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:background="@drawable/button_background"
+        android:layout_marginBottom="20dp"/>
 
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress"/>
-
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Пароль"
-            android:inputType="textPassword"/>
-
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Зареєструватися"
-            android:layout_marginTop="10dp"/>
-
-        <TextView
-            android:id="@+id/tvGoToLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="У мене вже є акаунт. Увійти"
-            android:textSize="16sp"
-            android:textColor="@android:color/holo_blue_dark"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:clickable="true"
-            android:focusable="true"/>
-    </LinearLayout>
-</ScrollView>
+    <!-- Текст "Вже є обліковий запис?" -->
+    <TextView
+        android:id="@+id/tvGoToLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Вже є обліковий запис? Увійдіть тут"
+        android:textColor="#6B1F1F"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>

@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.example.newfragment.data.AppDatabase
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
-    private lateinit var session: SessionManager
+    private lateinit var etEmail: EditText
+    private lateinit var etPassword: EditText
+    private lateinit var btnLogin: Button
+    private lateinit var tvGoToRegister: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -21,36 +24,39 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        session = SessionManager(requireContext())
 
-        val btnLogin = view.findViewById<Button>(R.id.btnLogin)
-        val etEmail = view.findViewById<EditText>(R.id.etEmail)
-        val etPassword = view.findViewById<EditText>(R.id.etPassword)
-        val tvGoToRegister = view.findViewById<TextView>(R.id.tvGoToRegister)
+        etEmail = view.findViewById(R.id.etEmail)
+        etPassword = view.findViewById(R.id.etPassword)
+        btnLogin = view.findViewById(R.id.btnLogin)
+        tvGoToRegister = view.findViewById(R.id.tvGoToRegister)
 
-        btnLogin.setOnClickListener {
-            val email = etEmail.text.toString()
-            val password = etPassword.text.toString()
-            val savedUser = session.getUser()
-
-            val savedEmail = savedUser["email"]
-            val savedPassword = savedUser["password"]
-
-            if (email == savedEmail && password == savedPassword) {
-                Toast.makeText(requireContext(), "Вхід успішний!", Toast.LENGTH_SHORT).show()
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, MainFragment())
-                    .commit()
-            } else {
-                Toast.makeText(requireContext(), "Неправильний email або пароль!", Toast.LENGTH_SHORT).show()
-            }
-        }
-
+        btnLogin.setOnClickListener { loginUser() }
         tvGoToRegister.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, RegisterFragment())
                 .addToBackStack(null)
                 .commit()
+        }
+    }
+
+    private fun loginUser() {
+        val email = etEmail.text.toString().trim()
+        val password = etPassword.text.toString().trim()
+
+        lifecycleScope.launch {
+            val db = AppDatabase.getInstance(requireContext())
+            val userDao = db.userDao()
+
+            val user = userDao.getUserByEmailAndPassword(email, password)
+
+            if (user != null) {
+                Toast.makeText(context, "Вхід успішний!", Toast.LENGTH_SHORT).show()
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, MainFragment())
+                    .commit()
+            } else {
+                Toast.makeText(context, "Невірний email або пароль!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
