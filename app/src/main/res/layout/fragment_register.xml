@@ -46,6 +46,18 @@
         android:textSize="16sp"
         android:layout_marginBottom="12dp"/>
 
+    <EditText
+        android:id="@+id/etPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Номер телефону"
+        android:inputType="phone"
+        android:background="@drawable/input_background"
+        android:padding="12dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_marginBottom="12dp"/>
+
     <!-- Поле Email -->
     <EditText
         android:id="@+id/etEmail"
@@ -72,15 +84,16 @@
         android:textSize="16sp"
         android:layout_marginBottom="20dp"/>
 
-    <!-- Кнопка "Зареєструватися" -->
-    <Button
+    <com.google.android.material.button.MaterialButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Зареєструватися"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:background="@drawable/button_background"
+        android:backgroundTint="#6B1F1F"
+        app:cornerRadius="6dp"
         android:layout_marginBottom="20dp"/>
 
     <!-- Текст "Вже є обліковий запис?" -->

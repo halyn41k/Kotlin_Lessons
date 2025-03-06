@@ -1,6 +1,10 @@
 package com.example.newfragment
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.newfragment.data.AppDatabase
 import kotlinx.coroutines.launch
+import android.content.Context
+
 
 class LoginFragment : Fragment() {
     private lateinit var etEmail: EditText
@@ -30,6 +36,13 @@ class LoginFragment : Fragment() {
         btnLogin = view.findViewById(R.id.btnLogin)
         tvGoToRegister = view.findViewById(R.id.tvGoToRegister)
 
+        // Стилізація тексту
+        val fullText = "Немає облікового запису? Створіть його тут"
+        val spannable = SpannableString(fullText)
+        spannable.setSpan(ForegroundColorSpan(Color.BLACK), 0, 23, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(ForegroundColorSpan(Color.parseColor("#6B1F1F")), 25, fullText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tvGoToRegister.text = spannable
+
         btnLogin.setOnClickListener { loginUser() }
         tvGoToRegister.setOnClickListener {
             parentFragmentManager.beginTransaction()
@@ -50,6 +63,11 @@ class LoginFragment : Fragment() {
             val user = userDao.getUserByEmailAndPassword(email, password)
 
             if (user != null) {
+                val sharedPreferences = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                with(sharedPreferences.edit()) {
+                    putString("logged_in_user_email", user.email)
+                    apply()
+                }
                 Toast.makeText(context, "Вхід успішний!", Toast.LENGTH_SHORT).show()
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, MainFragment())

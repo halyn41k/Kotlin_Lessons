@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="8dp"
+    android:background="@drawable/product_bg"
+    android:padding="12dp">
+
+    <!-- Картинка товару -->
+    <ImageView
+        android:id="@+id/ivProductImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop" />
+
+    <!-- Назва товару -->
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Назва товару"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Ціна товару -->
+    <TextView
+        android:id="@+id/tvProductPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100 грн"
+        android:textColor="#FF0000"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"/>
+
+    <!-- Тип бісеру -->
+    <TextView
+        android:id="@+id/tvBeadType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Тип бісеру"
+        android:textSize="12sp"
+        android:layout_marginTop="4dp"/>
+
+    <!-- Кнопка додати в кошик -->
+    <ImageView
+        android:id="@+id/ivAddToCart"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/cart"
+        android:background="@drawable/red_circle"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Сердечко (Додати в бажане) -->
+    <ImageView
+        android:id="@+id/ivWishlist"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_wishlist"
+        android:layout_gravity="start"
+        android:layout_marginTop="-24dp"/>
+</LinearLayout>

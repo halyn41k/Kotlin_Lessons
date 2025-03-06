@@ -1,88 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:gravity="center_horizontal"
+    android:padding="16dp">
 
-    <!-- Аватар -->
+    <!-- Зображення профілю -->
     <ImageView
-        android:id="@+id/avatar"
+        android:id="@+id/ivProfileImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:src="@drawable/profileacc"
         android:scaleType="centerCrop"
-        android:background="@drawable/avatar_border"
-        android:src="@drawable/ic_avatar_placeholder"
-        android:layout_gravity="center"/>
+        android:layout_marginBottom="16dp" />
 
-
-    <Button
-        android:id="@+id/btn_change_avatar"
+    <!-- Email користувача -->
+    <TextView
+        android:id="@+id/tvUserEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Змінити аватар"/>
+        android:text="email@example.com"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
 
+    <!-- Ім'я та прізвище користувача -->
     <TextView
-        android:id="@+id/tv_user_info"
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ім'я Прізвище"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Номер телефону -->
+    <TextView
+        android:id="@+id/tvUserPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Телефон"
+        android:textSize="16sp"
+        android:layout_marginBottom="24dp" />
+
+
+    <!-- Розділ "Мої замовлення" -->
+    <LinearLayout
+        android:id="@+id/llOrders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Завантаження..."
-        android:textAlignment="center"
-        android:padding="8dp"
-        android:textSize="16sp"/>
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical">
 
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_orders"
+            android:layout_marginEnd="12dp" />
 
-    <!-- Поля для особистої інформації -->
-    <EditText
-        android:id="@+id/et_name"
+        <TextView
+            android:id="@+id/tvOrders"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Мої замовлення"
+            android:textSize="16sp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_right" />
+    </LinearLayout>
+
+    <!-- Розділ "Список бажань" -->
+    <LinearLayout
+        android:id="@+id/llWishlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ім'я"/>
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical">
 
-    <EditText
-        android:id="@+id/et_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"/>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_wishlist"
+            android:layout_marginEnd="12dp" />
 
-    <EditText
-        android:id="@+id/et_about"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Про себе" />
+        <TextView
+            android:id="@+id/tvWishlist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Список бажань"
+            android:textSize="16sp"
+            android:layout_weight="1" />
 
-    <EditText
-        android:id="@+id/et_dob"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Дата народження" />
-
-
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Новий пароль"
-        android:inputType="textPassword"/>
-
-    <Button
-        android:id="@+id/btn_save_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Зберегти"/>
-
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Вийти"/>
-
-    <Button
-        android:id="@+id/btn_delete_account"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Видалити акаунт"
-        android:textColor="@android:color/holo_red_dark"/>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_right" />
+    </LinearLayout>
 </LinearLayout>
