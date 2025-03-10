@@ -1,0 +1,158 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Верхня панель з кнопкою повернення з червоним фоном -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="#6B1F1F"
+    android:elevation="8dp"
+    android:clickable="true"
+    app:navigationIcon="@drawable/ic_arrow_back"
+    app:navigationIconTint="@android:color/white"
+    app:title="Деталі товару"
+    app:titleTextColor="@android:color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topAppBar"
+        android:layout_above="@+id/addToCartButton">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Картка з фото товару -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+                    android:id="@+id/productImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/default_image" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Назва товару -->
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Назва товару"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Ціна товару -->
+            <TextView
+                android:id="@+id/productPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ціна товару"
+                android:textSize="18sp" />
+
+            <!-- Розміри -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Розміри:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/sizesLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <!-- Додайте кнопки або інші елементи для вибору розміру -->
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Кнопка "Список бажань" із MaterialButton -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/wishlistButton"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Список бажань"
+                android:backgroundTint="#6B1F1F"
+                app:cornerRadius="6dp"
+                android:textColor="@android:color/white" />
+
+            <!-- Заголовок характеристик -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Характеристики:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Блок характеристик у вигляді картки -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+                <LinearLayout
+                    android:id="@+id/specificationsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <!-- Додайте елементи для відображення характеристик -->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Заголовок для додаткової інформації -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Додаткова інформація:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/descriptionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <!-- Додайте елементи для відображення додаткової інформації -->
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Кнопка "Додати в кошик" із MaterialButton -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addToCartButton"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Додати в кошик"
+        android:backgroundTint="#6B1F1F"
+        app:cornerRadius="6dp"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

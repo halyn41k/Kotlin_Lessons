@@ -17,7 +17,8 @@ class ProductAdapter(private val productList: List<Product>) :
         val imageView: ImageView = itemView.findViewById(R.id.ivProductImage)
         val nameTextView: TextView = itemView.findViewById(R.id.tvProductName)
         val priceTextView: TextView = itemView.findViewById(R.id.tvProductPrice)
-        val beadTypeTextView: TextView = itemView.findViewById(R.id.tvBeadType) // ✅ Додав тип бісеру
+        // Якщо клас Product містить властивість beadType – розкоментуйте наступний рядок
+        // val beadTypeTextView: TextView = itemView.findViewById(R.id.tvBeadType)
         val addToCartButton: ImageView = itemView.findViewById(R.id.ivAddToCart)
         val wishlistButton: ImageView = itemView.findViewById(R.id.ivWishlist)
     }
@@ -32,13 +33,14 @@ class ProductAdapter(private val productList: List<Product>) :
         val product = productList[position]
         holder.nameTextView.text = product.name
         holder.priceTextView.text = "₴${product.price}"
-        holder.beadTypeTextView.text = product.beadType
+        // Якщо Product має властивість beadType – розкоментуйте наступний рядок
+        // holder.beadTypeTextView.text = product.beadType
 
         Glide.with(holder.itemView.context)
             .load(product.imageResId)
             .into(holder.imageView)
 
-        // Додамо обробники кліків для кнопок (кошик і бажане)
+        // Обробники кліків для кнопок
         holder.addToCartButton.setOnClickListener {
             // TODO: Додати логіку для додавання в кошик
         }
