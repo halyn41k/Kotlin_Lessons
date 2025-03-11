@@ -9,6 +9,34 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MainActivity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/second"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintBottom_toTopOf="@id/backToThird" />
+
+    <Button
+        android:id="@+id/backToThird"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back to Third Activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/second"
         android:id="@+id/textViewStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
