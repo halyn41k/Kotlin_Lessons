@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -35,4 +36,10 @@ class MainActivity : AppCompatActivity() {
     private fun updateTextView(isOn: Boolean) {
         textView.text = if (isOn) "ON" else "OFF"
     }
+        val button: Button = findViewById(R.id.buttonClickMe)
+
+        button.setOnClickListener {
+            Toast.makeText(this, "Clicked!", Toast.LENGTH_SHORT).show()
+        }
+    } Toast
 }
