@@ -7,9 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.newfragment.adapter.BannerAdapter
+import com.example.newfragment.adapter.Category
+import com.example.newfragment.adapter.CategoryAdapter
+import com.example.newfragment.adapter.ProductAdapter
+import com.example.newfragment.data.AppDatabase
+import com.example.newfragment.data.Product
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
@@ -20,13 +29,24 @@ class HomeFragment : Fragment() {
     private var currentPage = 0
     private val imageList = listOf(R.drawable.ban1, R.drawable.ban2, R.drawable.ban3, R.drawable.ban4)
 
-    private val runnable = object : Runnable {
+    private lateinit var categoryRecyclerView: androidx.recyclerview.widget.RecyclerView
+    private lateinit var categoryAdapter: CategoryAdapter
+
+    private lateinit var popularProductsRecyclerView: androidx.recyclerview.widget.RecyclerView
+    private lateinit var popularProductAdapter: ProductAdapter
+
+    private lateinit var newProductsRecyclerView: androidx.recyclerview.widget.RecyclerView
+    private lateinit var newProductAdapter: ProductAdapter
+
+    private lateinit var db: AppDatabase
+
+    private val bannerRunnable = object : Runnable {
         override fun run() {
             if (currentPage == imageList.size) {
                 currentPage = 0
             }
             viewPager.setCurrentItem(currentPage++, true)
-            handler.postDelayed(this, 10000) // Змінюємо кожні 10 секунд
+            handler.postDelayed(this, 10000)
         }
     }
 
@@ -35,7 +55,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+        db = AppDatabase.getInstance(requireContext())
 
+        // Ініціалізація банера
         viewPager = view.findViewById(R.id.viewPager)
         bannerAdapter = BannerAdapter(imageList)
         viewPager.adapter = bannerAdapter
@@ -51,9 +73,38 @@ class HomeFragment : Fragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 updateDots(position)
-                currentPage = position //Оновлюємо поточну сторінку
+                currentPage = position
             }
         })
+
+        // Ініціалізація RecyclerView для категорій
+        categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView)
+        categoryRecyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val categories = listOf(
+            Category("Браслети", R.drawable.braslets),
+            Category("Гердани", R.drawable.gerdans),
+            Category("Силянки", R.drawable.sylanku),
+            Category("Дукати", R.drawable.ducats),
+            Category("Сережки", R.drawable.earings),
+            Category("Пояси", R.drawable.belts)
+        )
+        categoryAdapter = CategoryAdapter(categories)
+        categoryRecyclerView.adapter = categoryAdapter
+
+        // Ініціалізація RecyclerView для популярних товарів
+        popularProductsRecyclerView = view.findViewById(R.id.popularProductsRecyclerView)
+        popularProductsRecyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        // Ініціалізація RecyclerView для новинок
+        newProductsRecyclerView = view.findViewById(R.id.newProductsRecyclerView)
+        newProductsRecyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        // Завантаження даних
+        loadPopularProducts()
+        loadNewProducts()
 
         return view
     }
@@ -68,13 +119,35 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun loadPopularProducts() {
+        CoroutineScope(Dispatchers.IO).launch {
+            // Припустимо, що цей метод повертає список популярних товарів
+            val popularProducts: List<Product> = db.productDao().getPopularProducts()
+            withContext(Dispatchers.Main) {
+                popularProductAdapter = ProductAdapter(popularProducts)
+                popularProductsRecyclerView.adapter = popularProductAdapter
+            }
+        }
+    }
+
+    private fun loadNewProducts() {
+        CoroutineScope(Dispatchers.IO).launch {
+            // Припустимо, що цей метод повертає список нових товарів
+            val newProducts: List<Product> = db.productDao().getNewProducts()
+            withContext(Dispatchers.Main) {
+                newProductAdapter = ProductAdapter(newProducts)
+                newProductsRecyclerView.adapter = newProductAdapter
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        handler.postDelayed(runnable, 1000) // Запускаємо при відновленні фрагмента
+        handler.postDelayed(bannerRunnable, 1000)
     }
 
     override fun onPause() {
         super.onPause()
-        handler.removeCallbacks(runnable) // Зупиняємо, коли фрагмент неактивний
+        handler.removeCallbacks(bannerRunnable)
     }
 }

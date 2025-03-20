@@ -1,19 +1,24 @@
 package com.example.newfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.newfragment.data.AppDatabase
+import com.example.newfragment.data.CartProduct
 import com.example.newfragment.data.Product
 import com.example.newfragment.data.ProductDescription
+import com.example.newfragment.data.WishlistProduct
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,10 +29,12 @@ class ProductDetailsFragment : Fragment() {
     private lateinit var productImage: ImageView
     private lateinit var productName: TextView
     private lateinit var productPrice: TextView
-    private lateinit var wishlistButton: Button
-    private lateinit var addToCartButton: Button
-    private lateinit var descriptionLayout: LinearLayout  // Для відображення опису продукту
-    private var loadedProduct: Product? = null
+    private lateinit var wishlistButton: MaterialButton
+    private lateinit var addToCartButton: MaterialButton
+    private lateinit var specificationsLayout: LinearLayout
+    private lateinit var db: AppDatabase  // Database instance
+    private var currentProductId: Int = -1 // Store the current product ID
+    private var currentUserId: Int = 1 // Replace with actual user ID logic
 
     companion object {
         private const val ARG_PRODUCT_ID = "product_id"
@@ -40,6 +47,10 @@ class ProductDetailsFragment : Fragment() {
             return fragment
         }
     }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        db = AppDatabase.getInstance(requireContext()) // Initialize database in onCreate
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -51,17 +62,18 @@ class ProductDetailsFragment : Fragment() {
         productPrice = view.findViewById(R.id.productPrice)
         wishlistButton = view.findViewById(R.id.wishlistButton)
         addToCartButton = view.findViewById(R.id.addToCartButton)
-        descriptionLayout = view.findViewById(R.id.descriptionLayout)
+        specificationsLayout = view.findViewById(R.id.specificationsLayout)
 
-        val productId = requireArguments().getInt(ARG_PRODUCT_ID)
-        loadProductDetails(productId)
+        // Get the product ID.  Store it for later use.
+        currentProductId = requireArguments().getInt(ARG_PRODUCT_ID)
+        loadProductDetails(currentProductId)
 
         addToCartButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Товар додано в кошик", Toast.LENGTH_SHORT).show()
+            addProductToCart(currentProductId, currentUserId)
         }
 
         wishlistButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Товар додано в список бажань", Toast.LENGTH_SHORT).show()
+            addProductToWishlist(currentProductId,currentUserId)
         }
 
         return view
@@ -69,12 +81,7 @@ class ProductDetailsFragment : Fragment() {
 
     private fun loadProductDetails(productId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            val db = AppDatabase.getInstance(requireContext())
-            // Отримуємо продукт за id
             val product = db.productDao().getProductById(productId)
-            loadedProduct = product
-
-            // Отримуємо опис продукту (беремо перший, якщо їх декілька)
             val description: ProductDescription? =
                 db.productDescriptionDao().getDescriptionForProduct(productId).firstOrNull()
 
@@ -86,17 +93,21 @@ class ProductDetailsFragment : Fragment() {
 
                     productName.text = product.name
                     productPrice.text = String.format("%.2f грн", product.price)
+                    //set fonts
+                    productName.typeface = ResourcesCompat.getFont(requireContext(), R.font.merriweather_bold)
+                    productPrice.typeface = ResourcesCompat.getFont(requireContext(), R.font.inter_semibold)
+                    wishlistButton.typeface = ResourcesCompat.getFont(requireContext(), R.font.montserrat_semibold)
+                    addToCartButton.typeface = ResourcesCompat.getFont(requireContext(), R.font.montserrat_semibold)
 
-                    // Відображення детальних характеристик з ProductDescription
-                    descriptionLayout.removeAllViews()
-                    description?.let { desc: ProductDescription ->
-                        addDescriptionTextView("Виробник бісеру", desc.beadProducer)
-                        addDescriptionTextView("Вага", "${desc.weight} г")
-                        addDescriptionTextView("Країна виробник", desc.countryOfManufacture)
-                        addDescriptionTextView("Тип бісеру", desc.typeOfBead)
-                        addDescriptionTextView("Категорія", desc.category)
-                        addDescriptionTextView("Фурнітура", desc.accessories)
-                        addDescriptionTextView("Розмір", desc.size)
+                    specificationsLayout.removeAllViews() // Clear previous views
+                    description?.let { desc ->
+                        addSpecification("Виробник бісеру", desc.beadProducer)
+                        addSpecification("Вага", "${desc.weight} г")
+                        addSpecification("Країна виробник", desc.countryOfManufacture)
+                        addSpecification("Тип бісеру", desc.typeOfBead)
+                        addSpecification("Категорія", desc.category)
+                        addSpecification("Фурнітура", desc.accessories)
+                        addSpecification("Розмір", desc.size)
                     }
                 } else {
                     Toast.makeText(requireContext(), "Товар не знайдено", Toast.LENGTH_SHORT).show()
@@ -104,11 +115,91 @@ class ProductDetailsFragment : Fragment() {
             }
         }
     }
+    private fun addProductToCart(productId: Int, userId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val existingCartProduct = db.cartProductDao().getCartProduct(userId, productId)
 
-    private fun addDescriptionTextView(label: String, value: String) {
-        val textView = TextView(requireContext())
-        textView.text = "$label: $value"
-        textView.setPadding(8, 4, 8, 4)
-        descriptionLayout.addView(textView)
+            if (existingCartProduct != null) {
+                // Product already in cart, update quantity
+                val updatedProduct = existingCartProduct.copy(quantity = existingCartProduct.quantity + 1)
+                db.cartProductDao().insert(updatedProduct) //  REPLACE will overwrite
+                withContext(Dispatchers.Main){
+                    Toast.makeText(requireContext(),"Quantity Updated in Cart", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                // Product not in cart, add it
+                val newCartProduct = CartProduct(userId = userId, productId = productId, quantity = 1)
+                db.cartProductDao().insert(newCartProduct)
+                withContext(Dispatchers.Main){
+                    Toast.makeText(requireContext(),"Added to Cart", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
+
+    private fun addProductToWishlist(productId: Int, userId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val existingWishlistProduct = db.wishlistProductDao().getWishlistProduct(userId, productId)
+
+            if (existingWishlistProduct != null) {
+                // Product already in wishlist, remove it (toggle functionality)
+                db.wishlistProductDao().delete(existingWishlistProduct)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Removed from Wishlist", Toast.LENGTH_SHORT).show()
+                    // Change the icon to the "not in wishlist" state
+                }
+            } else {
+                // Product not in wishlist, add it
+                val newWishlistProduct = WishlistProduct(userId = userId, productId = productId)
+                db.wishlistProductDao().insert(newWishlistProduct)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Added to Wishlist", Toast.LENGTH_SHORT).show()
+                    //  Change the icon to the "in wishlist" state
+                }
+            }
+        }
+    }
+
+    private fun addSpecification(label: String, value: String) {
+        val context = requireContext() // Get context once
+
+        // Create a container for the key-value pair
+        val specItemContainer = LinearLayout(context)
+        specItemContainer.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        specItemContainer.orientation = LinearLayout.HORIZONTAL
+
+
+        // Create TextView for the key (e.g., "Material:")
+        val keyTextView = TextView(context)
+        keyTextView.layoutParams = LinearLayout.LayoutParams(
+            0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f
+        ) // Use weight for distribution
+        keyTextView.text = "$label:"
+        keyTextView.typeface = ResourcesCompat.getFont(context, R.font.montserrat_bold) // Bold for key
+        keyTextView.textSize = 14f  // Use float for textSize
+        keyTextView.setTextColor(ContextCompat.getColor(context, R.color.black))
+        keyTextView.setPadding(0,0,8,16) // Add padding
+
+
+        // Create TextView for the value (e.g., "Cotton")
+        val valueTextView = TextView(context)
+        valueTextView.layoutParams = LinearLayout.LayoutParams(
+            0, LinearLayout.LayoutParams.WRAP_CONTENT, 2f
+        )  // Use weight for distribution
+        valueTextView.text = value
+        valueTextView.typeface = ResourcesCompat.getFont(context, R.font.montserrat_medium) // Medium for value
+        valueTextView.textSize = 14f
+        valueTextView.setTextColor(ContextCompat.getColor(context, R.color.black))
+        valueTextView.setPadding(0,0,0,16)
+
+        // Add key and value TextViews to the container
+        specItemContainer.addView(keyTextView)
+        specItemContainer.addView(valueTextView)
+
+        // Add the container to the specificationsLayout
+        specificationsLayout.addView(specItemContainer)
+    }
+
 }

@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.newfragment.CartFragment
 
 class MainFragment : Fragment() {
     override fun onCreateView(
@@ -16,7 +17,6 @@ class MainFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
 
         val bottomNav = view.findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        val btnProfile = view.findViewById<ImageButton>(R.id.btn_profile)
         val btnCart = view.findViewById<ImageButton>(R.id.btn_cart)
 
         // Завантажуємо HomeFragment при старті
@@ -30,7 +30,7 @@ class MainFragment : Fragment() {
                 R.id.nav_home -> HomeFragment()
                 R.id.nav_catalog -> CatalogFragment()
                 R.id.nav_info -> InfoFragment()
-                R.id.nav_other -> OtherFragment()
+                R.id.nav_profile -> ProfileFragment()
                 else -> null
             }
             fragment?.let {
@@ -39,10 +39,6 @@ class MainFragment : Fragment() {
             } ?: false
         }
 
-        // Обробка кліків на іконки у хедері
-        btnProfile.setOnClickListener {
-            loadFragment(ProfileFragment()) // Завантажуємо фрагмент профілю
-        }
 
         btnCart.setOnClickListener {
             loadFragment(CartFragment()) // Завантажуємо фрагмент кошика

@@ -21,8 +21,8 @@
         app:iconTint="@drawable/nav_item_selector"/>
 
     <item
-        android:id="@+id/nav_other"
-        android:title="Інше"
-        android:icon="@drawable/otherdef"
+        android:id="@+id/nav_profile"
+        android:title="Профіль"
+        android:icon="@drawable/profile"
         app:iconTint="@drawable/nav_item_selector"/>
 </menu>
