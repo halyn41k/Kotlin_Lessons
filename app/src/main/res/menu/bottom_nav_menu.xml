@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Головна"
+        android:icon="@drawable/homedef"
+        app:iconTint="@drawable/nav_item_selector"/>
+
+    <item
+        android:id="@+id/nav_catalog"
+        android:title="Каталог"
+        android:icon="@drawable/catalogdef"
+        app:iconTint="@drawable/nav_item_selector"/>
+
+    <item
+        android:id="@+id/nav_info"
+        android:title="Про магазин"
+        android:icon="@drawable/infodef"
+        app:iconTint="@drawable/nav_item_selector"/>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Профіль"
+        android:icon="@drawable/profile"
+        app:iconTint="@drawable/nav_item_selector"/>
+</menu>

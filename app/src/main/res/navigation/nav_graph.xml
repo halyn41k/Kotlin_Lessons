@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/loginFragment">
+
+    <!-- Login Fragment -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.newfragment.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <!-- Product Details Fragment -->
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.example.newfragment.ProductDetailsFragment"
+        android:label="Product Details"
+        tools:layout="@layout/fragment_product_details" />
+
+    <!-- Catalog Fragment -->
+    <fragment
+        android:id="@+id/catalogFragment"
+        android:name="com.example.newfragment.CatalogFragment"
+        android:label="Catalog"
+        tools:layout="@layout/fragment_catalog">
+        <action
+            android:id="@+id/action_catalogFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+
+    </fragment>
+
+
+    <!-- Register Fragment -->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.newfragment.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <!-- Home Fragment -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.newfragment.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <!-- Приклад дії для переходу до кошика -->
+        <action
+            android:id="@+id/action_homeFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <!-- Cart Fragment -->
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.newfragment.CartFragment"
+        android:label="Cart"
+        tools:layout="@layout/fragment_cart">
+        <action
+            android:id="@+id/action_cartFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
+
+    <!-- Payment Fragment -->
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.newfragment.PaymentFragment"
+        android:label="Payment"
+        tools:layout="@layout/fragment_payment">
+        <!-- Аргументи, що передаються з CartFragment -->
+        <argument
+            android:name="cartItems"
+            app:argType="java.io.Serializable" />
+        <argument
+            android:name="orderId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_paymentFragment_to_orderConfirmationFragment"
+            app:destination="@id/orderConfirmationFragment" />
+    </fragment>
+
+    <!-- Order Confirmation Fragment -->
+    <fragment
+        android:id="@+id/orderConfirmationFragment"
+        android:name="com.example.newfragment.OrderConfirmationFragment"
+        android:label="Order Confirmation"
+        tools:layout="@layout/fragment_order_confirmation">
+        <!-- Аргументи для підтвердження замовлення -->
+        <argument
+            android:name="cartItems"
+            app:argType="java.io.Serializable" />
+        <argument
+            android:name="orderId"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>

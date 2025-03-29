@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/aboutuspattern"
+    android:backgroundTint="#FFF7F6">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvHeader"
+            style="@style/HeaderTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Умови оплати та доставки"
+            android:layout_marginBottom="16dp" />
+
+        <ImageView
+            android:id="@+id/ivDelivery"
+            android:layout_width="wrap_content"
+            android:layout_height="156dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Delivery"
+            android:src="@drawable/delivery" />
+
+        <TextView
+            android:id="@+id/tvDeliveryTitle"
+            style="@style/SubheaderTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Доставка"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ми здійснюємо доставку по всій території України за допомогою таких перевізників:"
+            style="@style/ContentTextStyle"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/novapost"
+                android:contentDescription="Нова Пошта"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Нова Пошта"
+                style="@style/ListItemTextStyle"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ukrpost"
+                android:contentDescription="Укрпошта"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Укрпошта"
+                style="@style/ListItemTextStyle"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\nУмови доставки:"
+            style="@style/ContentTextStyle"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Нова Пошта"
+            style="@style/ContentTextStyle"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Термін доставки: 1-3 робочих дні"
+            style="@style/ContentTextStyle"
+            android:layout_marginStart="16dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Вартість доставки залежить від тарифів перевізника та ваги посилки."
+            style="@style/ContentTextStyle"
+            android:layout_marginStart="16dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Замовлення доставляється на відділення або кур'єром за адресою (за бажанням клієнта)."
+            style="@style/ContentTextStyle"
+            android:layout_marginStart="16dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Можливий післяплатіж, оплата при отриманні."
+            style="@style/ContentTextStyle"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Укрпошта"
+            style="@style/ContentTextStyle"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Термін доставки: 2-5 робочих днів"
+            style="@style/ContentTextStyle"
+            android:layout_marginStart="16dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Доставка доступна до відділень або до поштових скриньок."
+            style="@style/ContentTextStyle"
+            android:layout_marginStart="16dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Вартість доставки визначається згідно тарифів перевізника."
+            style="@style/ContentTextStyle"
+            android:layout_marginStart="16dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Можлива передплата або післяплатіж."
+            style="@style/ContentTextStyle"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            />
+
+        <TextView
+            android:id="@+id/tvPaymentTitle"
+            style="@style/SubheaderTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Оплата"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvPaymentContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ми пропонуємо кілька варіантів оплати:"
+            style="@style/ContentTextStyle"
+            android:layout_marginBottom="8dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Оплата при отриманні – Оплачується безпосередньо під час отримання товару у відділенні перевізника або кур'єром (додаткова комісія перевізника за накладний платіж)."
+            style="@style/ListItemTextStyle"
+            android:layout_marginBottom="8dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Передплата на банківську карту – Після оформлення замовлення вам буде надано реквізити для оплати. Після зарахування коштів ми відправимо ваше замовлення."
+            style="@style/ListItemTextStyle"
+            android:layout_marginBottom="8dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Онлайн оплата карткою – Оплата може бути здійснена через захищену платіжну систему на сайті. Замовлення відправляється після підтвердження платежу."
+            style="@style/ListItemTextStyle"
+            android:layout_marginBottom="8dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Додаткові умови:"
+            style="@style/ContentTextStyle"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            />
+        <TextView
+            android:id="@+id/tvAdditionalTerms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="У випадку оплати післяплатою, клієнт оплачує додаткову комісію перевізника за цей вид послуги."
+            style="@style/ContentTextStyle"
+            android:layout_marginStart="16dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Замовлення відправляється протягом 1-2 робочих днів після підтвердження оплати або оформлення післяплати."
+            style="@style/ContentTextStyle"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            />
+
+        <TextView
+            android:id="@+id/tvThankYou"
+            style="@style/ContentTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Дякуємо, що обрали наш магазин!"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+</ScrollView>

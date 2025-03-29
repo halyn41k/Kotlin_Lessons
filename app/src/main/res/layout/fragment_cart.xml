@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Повідомлення про порожній кошик -->
+    <TextView
+        android:id="@+id/emptyCartMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Кошик порожній"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="16dp"/>
+
+    <!-- Контейнер для списку товарів -->
+    <FrameLayout
+        android:id="@+id/cart_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

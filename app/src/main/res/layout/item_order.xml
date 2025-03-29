@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@android:color/white">
+
+    <!-- Заголовок замовлення -->
+    <TextView
+        android:id="@+id/orderTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Замовлення"
+        android:textSize="20sp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="4dp"/>
+
+    <!-- Номер замовлення -->
+    <TextView
+        android:id="@+id/orderIdTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Номер замовлення: 12345"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="4dp"/>
+
+    <!-- Сума замовлення -->
+    <TextView
+        android:id="@+id/amountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Сума: 0.00 грн"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="2dp"/>
+
+    <!-- Спосіб оплати -->
+    <TextView
+        android:id="@+id/paymentMethodTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Спосіб оплати: карта"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="2dp"/>
+
+    <!-- Статус замовлення -->
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Статус: completed"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textColor="@android:color/black"/>
+
+</LinearLayout>
