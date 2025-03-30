@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Дані продукту -->
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Назва товару" />
+
+        <EditText
+            android:id="@+id/etPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ціна"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/etBeadType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Тип бісеру" />
+
+        <!-- Дані опису продукту -->
+        <EditText
+            android:id="@+id/etBeadProducer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Виробник бісеру" />
+
+        <EditText
+            android:id="@+id/etWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Вага"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/etCountryOfManufacture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Країна-виробник" />
+
+        <EditText
+            android:id="@+id/etTypeOfBead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Тип бісеру (опис)" />
+
+        <EditText
+            android:id="@+id/etCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Категорія" />
+
+        <EditText
+            android:id="@+id/etAccessories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Фурнітура" />
+
+        <EditText
+            android:id="@+id/etSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Розмір" />
+
+        <Button
+            android:id="@+id/btnAddProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Додати товар"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>

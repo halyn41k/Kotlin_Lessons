@@ -29,4 +29,8 @@ interface CartProductDao {
 
     @Query("SELECT SUM(quantity) FROM cart_product WHERE userId = :userId")
     suspend fun getCartCount(userId: Int): Int?  // Changed to nullable Int?
+
+    @Query("SELECT * FROM cart_product WHERE userId = :userId")
+    suspend fun getAllCartProductsForUser(userId: Int): List<CartProduct>
+
 }

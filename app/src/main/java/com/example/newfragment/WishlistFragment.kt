@@ -27,6 +27,21 @@ class WishlistFragment : Fragment() {
     private lateinit var db: AppDatabase
     private val currentUserId = 1 // Replace with actual user ID
 
+    // Interface для зв'язку з CatalogFragment
+    interface OnCatalogUpdateListener {
+        fun onCatalogUpdated()
+    }
+
+    private var catalogUpdateListener: OnCatalogUpdateListener? = null
+
+    override fun onAttach(context: android.content.Context) {
+        super.onAttach(context)
+        // Перевіряємо, чи реалізує батьківський фрагмент інтерфейс
+        if (parentFragment is OnCatalogUpdateListener) {
+            catalogUpdateListener = parentFragment as OnCatalogUpdateListener
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,6 +58,8 @@ class WishlistFragment : Fragment() {
             wishlistItems = emptyList(),
             onRemoveClicked = { wishlistProduct ->
                 removeFromWishlist(wishlistProduct)
+                // Викликаємо метод інтерфейсу для оновлення каталогу
+                catalogUpdateListener?.onCatalogUpdated()
             },
             onMoveToCartClicked = { wishlistProduct ->
                 moveToCart(wishlistProduct)
@@ -51,7 +68,7 @@ class WishlistFragment : Fragment() {
         binding.wishlistRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.wishlistRecyclerView.adapter = wishlistAdapter
 
-        loadWishlistItems() // Initial load
+        loadWishlistItems()
     }
 
     private fun showEmptyWishlistMessage(show: Boolean) {
@@ -66,8 +83,6 @@ class WishlistFragment : Fragment() {
         }
     }
 
-
-
     private fun loadWishlistItems() {
         CoroutineScope(Dispatchers.IO).launch {
             val wishlistProducts = db.wishlistProductDao().getAllWishlistProducts(currentUserId)
@@ -81,20 +96,19 @@ class WishlistFragment : Fragment() {
             }
 
             withContext(Dispatchers.Main) {
-                // Update the adapter and *then* show/hide the empty message
                 wishlistAdapter.updateData(productList)
-                showEmptyWishlistMessage(productList.isEmpty())  // Check based on the actual data
-
+                showEmptyWishlistMessage(productList.isEmpty())
             }
         }
     }
-
 
     private fun removeFromWishlist(wishlistProduct: WishlistProduct) {
         CoroutineScope(Dispatchers.IO).launch {
             db.wishlistProductDao().delete(wishlistProduct)
             withContext(Dispatchers.Main) {
-                loadWishlistItems() // Reload after deletion
+                loadWishlistItems()
+                // Викликаємо метод інтерфейсу для оновлення каталогу
+                catalogUpdateListener?.onCatalogUpdated()
             }
         }
     }
@@ -121,6 +135,11 @@ class WishlistFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // Prevent memory leaks
+        _binding = null
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        catalogUpdateListener = null
     }
 }

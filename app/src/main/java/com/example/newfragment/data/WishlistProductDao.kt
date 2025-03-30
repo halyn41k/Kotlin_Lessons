@@ -26,4 +26,8 @@ interface WishlistProductDao {
 
     @Query("SELECT * FROM wishlist_product WHERE userId = :userId")
     fun getWishlistForUser(userId: Int): LiveData<List<WishlistProduct>>
+
+    @Query("DELETE FROM wishlist_product WHERE userId = :userId AND productId = :productId")
+    suspend fun deleteByUserIdAndProductId(userId: Int, productId: Int)
+
 }

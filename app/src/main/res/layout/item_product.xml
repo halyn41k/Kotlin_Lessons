@@ -27,6 +27,7 @@
             android:layout_alignTop="@id/ivProductImage"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:clickable="true"
             android:src="@drawable/ic_wishlists" />
 
         <LinearLayout

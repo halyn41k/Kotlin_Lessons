@@ -1,5 +1,6 @@
 package com.example.newfragment
 
+import CartViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.view.animation.ScaleAnimation
+import android.view.animation.Animation
+import androidx.lifecycle.ViewModelProvider
+
 
 class ProductDetailsFragment : Fragment() {
 
@@ -135,24 +140,56 @@ class ProductDetailsFragment : Fragment() {
     private fun addProductToCart(productId: Int, userId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             val existingCartProduct = db.cartProductDao().getCartProduct(userId, productId)
-
             if (existingCartProduct != null) {
-                // Якщо товар уже в кошику, оновлюємо кількість
                 val updatedProduct = existingCartProduct.copy(quantity = existingCartProduct.quantity + 1)
                 db.cartProductDao().insert(updatedProduct)
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(requireContext(), "Кількість оновлено в кошику", Toast.LENGTH_SHORT).show()
-                }
             } else {
-                // Якщо товару немає в кошику, додаємо його
                 val newCartProduct = CartProduct(userId = userId, productId = productId, quantity = 1)
                 db.cartProductDao().insert(newCartProduct)
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(requireContext(), "Додано до кошику", Toast.LENGTH_SHORT).show()
-                }
+            }
+            val cartItems = db.cartProductDao().getAllCartProductsForUser(userId)
+            val totalCount = cartItems.sumOf { it.quantity }
+
+            withContext(Dispatchers.Main) {
+                Toast.makeText(requireContext(), "Додано до кошику", Toast.LENGTH_SHORT).show()
+                // Оновлення спільного ViewModel
+                val cartViewModel = ViewModelProvider(requireActivity()).get(CartViewModel::class.java)
+                cartViewModel.cartCount.value = totalCount
             }
         }
     }
+
+
+
+    private fun updateCartCounter(newCount: Int) {
+        val cartCounter = requireActivity().findViewById<TextView>(R.id.cart_counter)
+        cartCounter.text = newCount.toString()
+
+        // Якщо лічильник прихований – показуємо його з анімацією
+        if (cartCounter.visibility == View.GONE) {
+            cartCounter.visibility = View.VISIBLE
+            val scaleAnimation = ScaleAnimation(
+                0f, 1f, 0f, 1f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
+            )
+            scaleAnimation.duration = 300
+            cartCounter.startAnimation(scaleAnimation)
+        } else {
+            // Легка пульсація при оновленні
+            val pulseAnimation = ScaleAnimation(
+                1f, 1.2f, 1f, 1.2f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
+            )
+            pulseAnimation.duration = 150
+            pulseAnimation.repeatMode = Animation.REVERSE
+            pulseAnimation.repeatCount = 1
+            cartCounter.startAnimation(pulseAnimation)
+        }
+    }
+
+
 
     private fun addProductToWishlist(productId: Int, userId: Int) {
         CoroutineScope(Dispatchers.IO).launch {

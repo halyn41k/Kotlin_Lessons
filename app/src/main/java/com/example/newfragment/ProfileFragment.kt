@@ -72,9 +72,12 @@ class ProfileFragment : Fragment() {
 
         // Обробка кліку для "Вийти з облікового запису"
         llLogout.setOnClickListener {
-            // Очистка SharedPreferences (або виконання іншої логіки виходу)
             val prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-            prefs.edit().clear().apply()
+            prefs.edit().clear().apply() // Видалення всіх даних
+            // Або видалення конкретних ключів:
+            // prefs.edit().remove("logged_in_user_email").apply()
+            // prefs.edit().remove("is_logged_in").apply()
+
             // Переходимо на LoginFragment
             parentFragmentManager.commit {
                 replace(R.id.fragment_container, LoginFragment())

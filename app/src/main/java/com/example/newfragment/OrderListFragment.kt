@@ -38,11 +38,11 @@ class OrderListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.ordersRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = OrderAdapter(object : OrderAdapter.OnOrderActionListener {
-            override fun onConfirmOrder(orderId: Int) {
+            override fun onConfirmOrder(order: OrderProduct) {
                 // Реалізуйте логіку обробки підтвердження замовлення (якщо потрібно)
             }
 
-            override fun onCancelOrder(orderId: Int) {
+            override fun onCancelOrder(order: OrderProduct) {
                 // Реалізуйте логіку обробки скасування замовлення (якщо потрібно)
             }
         }) // Передаємо OnOrderActionListener

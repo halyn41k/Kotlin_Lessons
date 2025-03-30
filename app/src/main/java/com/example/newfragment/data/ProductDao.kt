@@ -12,7 +12,7 @@ interface ProductDao {
     fun getProductsByIds(productIds: List<Int>): List<Product>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertProduct(product: Product)
+    suspend fun insert(product: Product): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg products: Product): LongArray
@@ -29,11 +29,12 @@ interface ProductDao {
     @Query("SELECT * FROM product_descriptions WHERE productId = :productId LIMIT 1")
     suspend fun getProductDescription(productId: Int): ProductDescription?
 
-    // Для популярних товарів повертаємо всі товари з БД
     @Query("SELECT * FROM products")
     fun getPopularProducts(): List<Product>
 
-    // Для новинок сортуємо за датою створення (новіші першими)
     @Query("SELECT * FROM products ORDER BY createdAt DESC")
     fun getNewProducts(): List<Product>
+
+    @Query("SELECT * FROM products WHERE name LIKE '%' || :query || '%'")
+    suspend fun searchProducts(query: String): List<Product>
 }

@@ -1,10 +1,35 @@
 package com.example.newfragment
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.example.newfragment.databinding.FragmentAdminBinding
 
 class AdminFragment : Fragment() {
-    // Тут буде ваш код для AdminFragment
-    // Наприклад:
-    // override fun onCreateView(...)
-    // override fun onViewCreated(...)
+    private var _binding: FragmentAdminBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentAdminBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Переконайтеся, що у layout-файлі існують кнопки з цими id
+        binding.addProductBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_adminHomeFragment_to_addProductFragment)
+        }
+        binding.manageOrdersBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_adminHomeFragment_to_manageOrdersFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

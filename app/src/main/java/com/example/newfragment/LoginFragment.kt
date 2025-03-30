@@ -39,8 +39,18 @@ class LoginFragment : Fragment() {
         // Стилізація тексту (залишається без змін)
         val fullText = "Немає облікового запису? Створіть його тут"
         val spannable = SpannableString(fullText)
-        spannable.setSpan(ForegroundColorSpan(Color.BLACK), 0, 23, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spannable.setSpan(ForegroundColorSpan(Color.parseColor("#6B1F1F")), 25, fullText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(
+            ForegroundColorSpan(Color.BLACK),
+            0,
+            23,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannable.setSpan(
+            ForegroundColorSpan(Color.parseColor("#6B1F1F")),
+            25,
+            fullText.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         tvGoToRegister.text = spannable
 
 
@@ -64,9 +74,13 @@ class LoginFragment : Fragment() {
             val user = userDao.getUserByEmailAndPassword(email, password)
 
             if (user != null) {
-                val sharedPreferences = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                val sharedPreferences =
+                    requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
                 with(sharedPreferences.edit()) {
                     putString("logged_in_user_email", user.email)
+                    // Додатково можна зберегти інші дані, якщо потрібно
+                    // putString("logged_in_user_role", user.role)
+                    putBoolean("is_logged_in", true) // Флаг, що користувач увійшов
                     apply()
                 }
                 Toast.makeText(context, "Вхід успішний!", Toast.LENGTH_SHORT).show()
@@ -74,15 +88,18 @@ class LoginFragment : Fragment() {
                 // Перевірка ролі користувача
                 if (user.email == "admin@gmail.com" && user.password == "adminadmin") {
                     // Адміністратор - перехід до AdminFragment
+                    parentFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, AdminFragment())
                         .commit()
                 } else {
                     // Звичайний користувач - перехід до MainFragment
+                    parentFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, MainFragment())
                         .commit()
                 }
+
             } else {
                 Toast.makeText(context, "Невірний email або пароль!", Toast.LENGTH_SHORT).show()
             }

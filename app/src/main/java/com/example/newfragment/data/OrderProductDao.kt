@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface OrderProductDao {
@@ -15,4 +16,7 @@ interface OrderProductDao {
 
     @Query("SELECT * FROM order_product WHERE orderId = :orderId")
     suspend fun getOrderProductsByOrderId(orderId: Int): List<OrderProduct>
+
+    @Update
+    suspend fun update(orderProduct: OrderProduct)
 }

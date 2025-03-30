@@ -1,14 +1,16 @@
 package com.example.newfragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,6 +32,7 @@ class CatalogFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var productAdapter: ProductAdapter
     private lateinit var wishlistViewModel: WishlistViewModel
+    private lateinit var etSearch: EditText
     private var currentUserId = 1
 
     override fun onCreateView(
@@ -39,6 +42,7 @@ class CatalogFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_catalog, container, false)
 
+        etSearch = view.findViewById(R.id.etSearch)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = GridLayoutManager(context, 2)
 
@@ -48,32 +52,41 @@ class CatalogFragment : Fragment() {
         wishlistViewModel = ViewModelProvider(this)[WishlistViewModel::class.java]
 
         addSampleProducts()
-        loadProducts()
+        loadProducts("") // завантажуємо усі товари за замовчуванням
+
+        setupSearch()
 
         return view
     }
 
+    private fun setupSearch() {
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                // Виконуємо пошук після зміни тексту
+                val query = s.toString().trim()
+                loadProducts(query)
+            }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-        wishlistViewModel.getWishlistForUser(currentUserId).observe(viewLifecycleOwner, Observer { wishlist ->
-            // productAdapter.notifyDataSetChanged() //видаляємо
-            loadProducts()
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-
     }
 
-    private fun loadProducts() {
+    // query: якщо пусто, завантажуємо всі товари, інакше – шукаємо
+    private fun loadProducts(query: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getInstance(requireContext())
-            val products = db.productDao().getAllProducts()
-
+            val products = if (query.isEmpty()) {
+                db.productDao().getAllProducts()
+            } else {
+                db.productDao().searchProducts(query)
+            }
+            // Отримуємо список продуктів з wishlist для поточного користувача
             val wishlist = wishlistViewModel.getWishlistForUser(currentUserId).value ?: emptyList()
-
+            // Оновлюємо кожен продукт за даними wishlist
             val updatedProducts = products.map { product ->
-                product.copy(isInWishlist
-                = wishlist.any { it.productId == product.id })
+                product.copy(isInWishlist = wishlist.any { wishlistItem -> wishlistItem.productId == product.id })
             }
             withContext(Dispatchers.Main) {
                 productAdapter.submitList(updatedProducts)
@@ -81,6 +94,7 @@ class CatalogFragment : Fragment() {
         }
     }
 
+    // Існуючий метод addSampleProducts без змін
     private fun addSampleProducts() {
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getInstance(requireContext())
@@ -89,25 +103,67 @@ class CatalogFragment : Fragment() {
 
             if (productDao.getAllProducts().isEmpty()) {
                 val sampleProducts = listOf(
-                    Product(name = "Браслет «Українські візерунки»", price = 450.0, imageResId = R.drawable.bracelet_ukrainian, beadType = "Китайський бісер"),
-                    Product(name = "Браслет «Розмаїття кольорів»", price = 750.0, imageResId = R.drawable.bracelet_colors, beadType = "Японський бісер"),
-                    Product(name = "Браслет «Чорно-білий розмай»", price = 650.0, imageResId = R.drawable.bracelet_black_white, beadType = "Чеський бісер")
+                    Product(
+                        name = "Браслет «Українські візерунки»",
+                        price = 450.0,
+                        imageResId = R.drawable.bracelet_ukrainian,
+                        beadType = "Китайський бісер"
+                    ),
+                    Product(
+                        name = "Браслет «Розмаїття кольорів»",
+                        price = 750.0,
+                        imageResId = R.drawable.bracelet_colors,
+                        beadType = "Японський бісер"
+                    ),
+                    Product(
+                        name = "Браслет «Чорно-білий розмай»",
+                        price = 650.0,
+                        imageResId = R.drawable.bracelet_black_white,
+                        beadType = "Чеський бісер"
+                    )
                 )
                 val productIds = productDao.insertAll(*sampleProducts.toTypedArray())
 
                 val descriptions = listOf(
-                    ProductDescription(productId = productIds[0].toInt(), beadProducer = "Виробник A", weight = 2.5, countryOfManufacture = "Україна", typeOfBead = "Круглий", category = "Браслети", accessories = "Застібка-карабін", size = "16-18 см"),
-                    ProductDescription(productId = productIds[1].toInt(), beadProducer = "Виробник B", weight = 3.0, countryOfManufacture = "Чехія", typeOfBead = "Овальний", category = "Браслети", accessories = "Магнітна застібка", size = "17-19 см"),
-                    ProductDescription(productId = productIds[2].toInt(), beadProducer = "Виробник C", weight = 2.8, countryOfManufacture = "Японія", typeOfBead = "Циліндричний", category = "Браслети", accessories = "Зав'язки", size = "15-17 см")
+                    ProductDescription(
+                        productId = productIds[0].toInt(),
+                        beadProducer = "Виробник A",
+                        weight = 2.5,
+                        countryOfManufacture = "Україна",
+                        typeOfBead = "Круглий",
+                        category = "Браслети",
+                        accessories = "Застібка-карабін",
+                        size = "16-18 см"
+                    ),
+                    ProductDescription(
+                        productId = productIds[1].toInt(),
+                        beadProducer = "Виробник B",
+                        weight = 3.0,
+                        countryOfManufacture = "Чехія",
+                        typeOfBead = "Овальний",
+                        category = "Браслети",
+                        accessories = "Магнітна застібка",
+                        size = "17-19 см"
+                    ),
+                    ProductDescription(
+                        productId = productIds[2].toInt(),
+                        beadProducer = "Виробник C",
+                        weight = 2.8,
+                        countryOfManufacture = "Японія",
+                        typeOfBead = "Циліндричний",
+                        category = "Браслети",
+                        accessories = "Зав'язки",
+                        size = "15-17 см"
+                    )
                 )
                 descriptions.forEach { productDescriptionDao.insert(it) }
             }
         }
     }
 
-
-    inner class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
-
+    // Решта коду адаптера залишається без змін
+    inner class ProductAdapter :
+        ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
         private val imageResourceMap = mapOf(
             "Браслет «Українські візерунки»" to R.drawable.bracelet_ukrainian,
             "Браслет «Розмаїття кольорів»" to R.drawable.bracelet_colors,
@@ -151,16 +207,18 @@ class CatalogFragment : Fragment() {
                     .commit()
             }
 
-
             holder.btnWishlist.setImageResource(
                 if (product.isInWishlist) R.drawable.filled_heart else R.drawable.ic_wishlists
             )
 
-
             holder.btnWishlist.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val isInWishlist = db.wishlistProductDao().isInWishlist(currentUserId, product.id) // Use currentUserId
-                    val wishlistProduct = WishlistProduct(userId = currentUserId, productId = product.id)
+                    val isInWishlist = db.wishlistProductDao().isInWishlist(
+                        currentUserId,
+                        product.id
+                    )
+                    val wishlistProduct =
+                        WishlistProduct(userId = currentUserId, productId = product.id)
 
                     if (isInWishlist) {
                         wishlistViewModel.removeFromWishlist(wishlistProduct)
@@ -171,10 +229,16 @@ class CatalogFragment : Fragment() {
                     withContext(Dispatchers.Main) {
                         product.isInWishlist = !product.isInWishlist
 
+                        holder.btnWishlist.setImageResource(
+                            if (product.isInWishlist) R.drawable.filled_heart else R.drawable.ic_wishlists
+                        )
+
                         if (!product.isInWishlist) {
-                            Toast.makeText(context, "Видалено з бажаного: $extractedName", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Видалено з бажаного: $extractedName", Toast.LENGTH_SHORT)
+                                .show()
                         } else {
-                            Toast.makeText(context, "Додано до бажаного: $extractedName", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Додано до бажаного: $extractedName", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 }
@@ -182,16 +246,21 @@ class CatalogFragment : Fragment() {
 
             holder.btnAddToCart.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val db = AppDatabase.getInstance(requireContext())
-                    val existingCartItem = db.cartProductDao().getProduct(currentUserId, product.id)
+                    val existingCartItem = db.cartProductDao().getProduct(
+                        currentUserId,
+                        product.id
+                    )
                     if (existingCartItem != null) {
-                        val updatedItem = existingCartItem.copy(quantity = existingCartItem.quantity + 1)
+                        val updatedItem =
+                            existingCartItem.copy(quantity = existingCartItem.quantity + 1)
                         db.cartProductDao().update(updatedItem)
                     } else {
-                        db.cartProductDao().insert(CartProduct(userId = currentUserId, productId = product.id, quantity = 1))
+                        db.cartProductDao()
+                            .insert(CartProduct(userId = currentUserId, productId = product.id, quantity = 1))
                     }
-                    withContext(Dispatchers.Main){
-                        Toast.makeText(context, "Додано в кошик: $extractedName", Toast.LENGTH_SHORT).show()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Додано в кошик: $extractedName", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }

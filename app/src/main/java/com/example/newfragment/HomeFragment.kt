@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.newfragment.adapter.BannerAdapter
@@ -15,6 +17,7 @@ import com.example.newfragment.adapter.CategoryAdapter
 import com.example.newfragment.adapter.ProductAdapter
 import com.example.newfragment.data.AppDatabase
 import com.example.newfragment.data.Product
+import com.example.newfragment.viewmodel.CatalogViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,6 +42,7 @@ class HomeFragment : Fragment() {
     private lateinit var newProductAdapter: ProductAdapter
 
     private lateinit var db: AppDatabase
+    private lateinit var catalogViewModel: CatalogViewModel
 
     private val bannerRunnable = object : Runnable {
         override fun run() {
@@ -102,9 +106,11 @@ class HomeFragment : Fragment() {
         newProductsRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
+        // Initialize ViewModel
+        catalogViewModel = ViewModelProvider(this)[CatalogViewModel::class.java]
+
         // Завантаження даних
-        loadPopularProducts()
-        loadNewProducts()
+        observeData()
 
         return view
     }
@@ -119,27 +125,54 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun loadPopularProducts() {
-        CoroutineScope(Dispatchers.IO).launch {
-            // Припустимо, що цей метод повертає список популярних товарів
-            val popularProducts: List<Product> = db.productDao().getPopularProducts()
-            withContext(Dispatchers.Main) {
-                popularProductAdapter = ProductAdapter(popularProducts)
-                popularProductsRecyclerView.adapter = popularProductAdapter
-            }
+    private fun observeData() {
+        // Observe popular products
+        catalogViewModel.popularProducts.observe(viewLifecycleOwner) { products ->
+            popularProductAdapter = ProductAdapter(
+                currentUserId = 1, // Використовуйте актуальний ID користувача
+                onProductClicked = { productId ->
+                    // Перехід до фрагменту деталей для популярних товарів
+                    val detailsFragment = ProductDetailsFragment.newInstance(productId)
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, detailsFragment)
+                        .addToBackStack(null)
+                        .commit()
+                },
+                onWishlistClicked = { product ->
+                    catalogViewModel.toggleWishlistItem(1, product) // Виклик логіки для wishlist
+                },
+                onAddToCartClicked = { product ->
+                    catalogViewModel.addToCart(1, product) // Виклик логіки для додавання в кошик
+                }
+            )
+            popularProductsRecyclerView.adapter = popularProductAdapter
+            popularProductAdapter.submitList(products)
+        }
+
+        // Observe new products
+        catalogViewModel.newProducts.observe(viewLifecycleOwner) { products ->
+            newProductAdapter = ProductAdapter(
+                currentUserId = 1, // Використовуйте актуальний ID користувача
+                onProductClicked = { productId ->
+                    // Перехід до фрагменту деталей для новинок
+                    val detailsFragment = ProductDetailsFragment.newInstance(productId)
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, detailsFragment)
+                        .addToBackStack(null)
+                        .commit()
+                },
+                onWishlistClicked = { product ->
+                    catalogViewModel.toggleWishlistItem(1, product)
+                },
+                onAddToCartClicked = { product ->
+                    catalogViewModel.addToCart(1, product)
+                }
+            )
+            newProductsRecyclerView.adapter = newProductAdapter
+            newProductAdapter.submitList(products)
         }
     }
 
-    private fun loadNewProducts() {
-        CoroutineScope(Dispatchers.IO).launch {
-            // Припустимо, що цей метод повертає список нових товарів
-            val newProducts: List<Product> = db.productDao().getNewProducts()
-            withContext(Dispatchers.Main) {
-                newProductAdapter = ProductAdapter(newProducts)
-                newProductsRecyclerView.adapter = newProductAdapter
-            }
-        }
-    }
 
     override fun onResume() {
         super.onResume()
