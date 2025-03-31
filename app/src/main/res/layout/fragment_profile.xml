@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="16dp">
+
+    <!-- Профільна фотографія -->
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_profile"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Email користувача -->
+    <TextView
+        android:id="@+id/tvUserEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="email@example.com"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/montserrat_semibold"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Ім'я користувача -->
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ім'я Прізвище"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_medium"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Телефон користувача -->
+    <TextView
+        android:id="@+id/tvUserPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Телефон"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_medium"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Рядок "Мої замовлення" -->
+    <LinearLayout
+        android:id="@+id/llOrders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/orders"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:id="@+id/tvOrders"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Мої замовлення"
+            android:textSize="16sp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_right" />
+    </LinearLayout>
+
+    <!-- Рядок "Список бажаного" -->
+    <LinearLayout
+        android:id="@+id/llWishlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="@drawable/wishlist_item_selector"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/hearty"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:id="@+id/tvWishlist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Список бажаного"
+            android:textSize="16sp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_right" />
+    </LinearLayout>
+
+    <!-- Рядок "Доставка і оплата" -->
+    <LinearLayout
+        android:id="@+id/llDeliveryPayment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:id="@+id/ivDeliveryPayment"
+            android:layout_width="22dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_delivery_payment"
+            android:contentDescription="Доставка і оплата"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:id="@+id/tvDeliveryPayment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Доставка і оплата"
+            android:textSize="16sp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_right"
+            android:contentDescription="Перейти" />
+    </LinearLayout>
+
+    <!-- Рядок "Вийти з облікового запису" -->
+    <LinearLayout
+        android:id="@+id/llLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:id="@+id/ivLogout"
+            android:layout_width="16dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_logout"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Вийти" />
+
+        <TextView
+            android:id="@+id/tvLogout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Вийти з облікового запису"
+            android:textSize="16sp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

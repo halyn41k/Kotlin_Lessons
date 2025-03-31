@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <!-- Заголовок діалогового вікна -->
+    <TextView
+        android:id="@+id/tvAddTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Додати товар"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Поле введення назви товару -->
+    <EditText
+        android:id="@+id/etProductName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Назва товару"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/tvAddTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Поле введення ціни товару -->
+    <EditText
+        android:id="@+id/etProductPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Ціна"
+        android:inputType="numberDecimal"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/etProductName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Кнопка для додавання фото з текстом "Додати фото" та іконкою плюсика -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Додати фото"
+        android:drawableStart="@drawable/ic_add"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        app:cornerRadius="8dp"
+        app:backgroundTint="#6B1F1F"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etProductPrice"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Поле введення типу намиста -->
+    <EditText
+        android:id="@+id/etBeadType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Тип бісеру"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/btnAddPhoto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Поле введення виробника намиста -->
+    <EditText
+        android:id="@+id/etBeadProducer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Виробник бісеру"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/etBeadType"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Поле введення ваги -->
+    <EditText
+        android:id="@+id/etWeight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Вага"
+        android:inputType="numberDecimal"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/etBeadProducer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Поле введення країни виробництва -->
+    <EditText
+        android:id="@+id/etCountryOfManufacture"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Країна виробництва"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/etWeight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Поле введення типу намиста (детальний) -->
+    <EditText
+        android:id="@+id/etTypeOfBead"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Тип виробу"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/etCountryOfManufacture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Поле введення категорії -->
+    <EditText
+        android:id="@+id/etCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Категорія"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/etTypeOfBead"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Поле введення аксесуарів -->
+    <EditText
+        android:id="@+id/etAccessories"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Фурнітура"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/etCategory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Поле введення розміру -->
+    <EditText
+        android:id="@+id/etSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Розмір"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/etAccessories"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Контейнер кнопок -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/etSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Зберегти"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#6B1F1F"
+            app:cornerRadius="6dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Скасувати"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#C4AEAC"
+            app:cornerRadius="6dp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

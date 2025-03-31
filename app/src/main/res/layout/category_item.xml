@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="150dp"
+    android:minHeight="180dp"
+    android:padding="8dp">
+
+    <!-- Фоновий світлий квадрат -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/lightSquare"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:cardBackgroundColor="#EADCDB"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Фоновий темний квадрат зі зміщенням по вертикалі на 31dp -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/darkSquare"
+        android:layout_width="118dp"
+        android:layout_height="118dp"
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="#C4AEAC"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Зображення категорії, розташоване поверх фонового контенту -->
+    <ImageView
+        android:id="@+id/categoryImage"
+        android:layout_width="96dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="-25dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:elevation="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Назва категорії, розташована під зображенням -->
+    <TextView
+        android:id="@+id/categoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/kyivtypetitling_bold3"
+        android:text="Назва категорії"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categoryImage"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
